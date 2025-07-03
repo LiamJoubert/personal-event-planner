@@ -1,11 +1,16 @@
+import React, { useContext } from "react";
 import NavBar from "../../routes/NavBar";
+import LoginForm from "../loginForm/LoginForm";
+import { UserContext } from "../../context/UserContext";
 
 export default function Dashboard() {
+  const { user } = useContext(UserContext);
   return (
     <>
       <NavBar />
-      <h1>DASHBOARD</h1>
-      <p>Future rendering, please wait</p>
+      <main className="container mt-4">
+        {user ? <h2>Welcome, {user.name}!</h2> : <LoginForm />}
+      </main>
     </>
   );
 }
