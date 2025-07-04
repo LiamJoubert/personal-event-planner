@@ -7,7 +7,12 @@ import { UserContext } from "../../context/UserContext";
 
 export default function Events() {
   const [events, setEvents] = useState([]);
-  const { user } = useContext(UserContext);
+  const { user, deleteEvent } = useContext(UserContext);
+
+  const handleDelete = (eventId) => {
+    deleteEvent(eventId);
+    setEvents(events.filter((e) => e.id !== eventId));
+  };
 
   // Load events from localStorage on mount
   useEffect(() => {
@@ -58,7 +63,11 @@ export default function Events() {
                   <Button variant="outline-secondary" size="sm" disabled>
                     Edit
                   </Button>
-                  <Button variant="outline-danger" size="sm" disabled>
+                  <Button
+                    variant="outline-danger"
+                    size="sm"
+                    onClick={() => handleDelete(event.id)}
+                  >
                     Delete
                   </Button>
                 </div>

@@ -11,6 +11,22 @@ export function UserProvider({ children }) {
     if (storedUser) setUser(storedUser);
   }, []);
 
+  const deleteEvent = (eventId) => {
+    const updatedUser = {
+      ...user,
+      events: user.events.filter((event) => event.id !== eventId),
+    };
+
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+    const updatedUsers = users.map((u) =>
+      u.username === updatedUser.username ? updatedUser : u
+    );
+
+    localStorage.setItem("users", JSON.stringify(updatedUsers));
+    localStorage.setItem("currentUser", JSON.stringify(updatedUser));
+    setUser(updatedUser);
+  };
+
   const login = ({ username, password }) => {
     const users = JSON.parse(localStorage.getItem("users")) || [];
     const foundUser = users.find(
@@ -71,7 +87,9 @@ export function UserProvider({ children }) {
   };
 
   return (
-    <UserContext.Provider value={{ user, login, logout, register, addEvent }}>
+    <UserContext.Provider
+      value={{ user, login, logout, register, addEvent, deleteEvent }}
+    >
       {children}
     </UserContext.Provider>
   );
