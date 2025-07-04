@@ -24,6 +24,23 @@ export function UserProvider({ children }) {
     }
   };
 
+  const addEvent = (event) => {
+    const updatedUser = {
+      ...user,
+      events: [...(user.events || []), event],
+    };
+
+    // Update users array in localStorage
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+    const updatedUsers = users.map((u) =>
+      u.username === updatedUser.username ? updatedUser : u
+    );
+
+    localStorage.setItem("users", JSON.stringify(updatedUsers));
+    localStorage.setItem("currentUser", JSON.stringify(updatedUser));
+    setUser(updatedUser);
+  };
+
   const logout = () => {
     setUser(null);
     localStorage.removeItem("currentUser");
@@ -54,7 +71,7 @@ export function UserProvider({ children }) {
   };
 
   return (
-    <UserContext.Provider value={{ user, login, logout, register }}>
+    <UserContext.Provider value={{ user, login, logout, register, addEvent }}>
       {children}
     </UserContext.Provider>
   );
