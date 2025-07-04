@@ -1,7 +1,11 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import { useContext } from "react";
 import { Button } from "react-bootstrap";
+import { UserContext } from "../../context/UserContext";
 
 export default function EventForm({ onAddEvent }) {
+  const { addEvent } = useContext(UserContext);
+
   const initialValues = {
     name: "",
     date: "",
@@ -20,17 +24,11 @@ export default function EventForm({ onAddEvent }) {
   const handleSubmit = (values, { resetForm }) => {
     const newEvent = {
       ...values,
-      id: Date.now().toString(), // simple unique ID
+      id: Date.now().toString(),
     };
 
-    // Save to localStorage
-    const storedEvents = JSON.parse(localStorage.getItem("events")) || [];
-    const updatedEvents = [...storedEvents, newEvent];
-    localStorage.setItem("events", JSON.stringify(updatedEvents));
-
-    // Notify parent to refresh list
-    if (onAddEvent) onAddEvent(newEvent);
-
+    addEvent(newEvent); // Save to user context
+    if (onAddEvent) onAddEvent(newEvent); // Notify parent
     resetForm();
   };
 

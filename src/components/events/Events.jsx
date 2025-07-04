@@ -2,15 +2,21 @@ import NavBar from "../../routes/NavBar";
 import { useEffect, useState } from "react";
 import EventForm from "./EventForm";
 import { Card, Button } from "react-bootstrap";
+import { useContext } from "react";
+import { UserContext } from "../../context/UserContext";
 
 export default function Events() {
   const [events, setEvents] = useState([]);
+  const { user } = useContext(UserContext);
 
   // Load events from localStorage on mount
   useEffect(() => {
-    const stored = JSON.parse(localStorage.getItem("events")) || [];
-    const sorted = stored.sort((a, b) => new Date(a.date) - new Date(b.date));
-    setEvents(sorted);
+    if (user?.events) {
+      const sorted = [...user.events].sort(
+        (a, b) => new Date(a.date) - new Date(b.date)
+      );
+      setEvents(sorted);
+    }
   }, []);
 
   const handleAddEvent = (newEvent) => {
@@ -23,6 +29,7 @@ export default function Events() {
   return (
     <>
       <NavBar />
+
       <div className="container mt-4">
         <h2 className="mb-4">Your Events</h2>
 
