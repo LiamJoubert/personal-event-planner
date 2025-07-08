@@ -2,6 +2,7 @@ import { Button } from "react-bootstrap";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useContext } from "react";
 import { UserContext } from "../../context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginForm() {
   const { login } = useContext(UserContext);
@@ -9,6 +10,8 @@ export default function LoginForm() {
     username: "",
     password: "",
   };
+
+  const navigate = useNavigate();
 
   const validate = (values) => {
     const errors = {};
@@ -24,6 +27,7 @@ export default function LoginForm() {
   const handleSubmit = (values, { resetForm }) => {
     login({ username: values.username, password: values.password });
     resetForm();
+    navigate("/events");
   };
   return (
     <div className="d-flex justify-content-center align-items-center mt-5">

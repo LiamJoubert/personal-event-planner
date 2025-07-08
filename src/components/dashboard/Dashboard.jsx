@@ -3,7 +3,6 @@ import NavBar from "../../routes/NavBar";
 import LoginForm from "../loginForm/LoginForm";
 import { UserContext } from "../../context/UserContext";
 import RegisterForm from "../registerForm/RegisterForm";
-import LogoutButton from "../logoutButton/LogoutButton";
 
 export default function Dashboard() {
   const { user } = useContext(UserContext);
@@ -15,7 +14,6 @@ export default function Dashboard() {
       <main className="container mt-4">
         {user ? (
           <>
-            <LogoutButton />
             <h2>Welcome, {user.name}!</h2>
           </>
         ) : showRegister ? (

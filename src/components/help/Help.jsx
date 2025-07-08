@@ -14,7 +14,7 @@ export default function Help() {
             <Card.Text>
               To get started, register with your name, email, username, and
               password. Once registered, log in to access your personal
-              dashboard.
+              dashboard. You cannot access events until logged in.
             </Card.Text>
           </Card.Body>
         </Card>

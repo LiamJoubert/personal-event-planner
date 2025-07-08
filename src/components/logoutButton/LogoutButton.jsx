@@ -13,12 +13,7 @@ export default function LogoutButton() {
   };
 
   return (
-    <Button
-      variant="outline-danger"
-      size="sm"
-      onClick={handleLogout}
-      className="position-absolute top-0 end-0 m-3"
-    >
+    <Button variant="outline-danger" size="sm" onClick={handleLogout}>
       Logout
     </Button>
   );
