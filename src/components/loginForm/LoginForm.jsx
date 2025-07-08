@@ -33,10 +33,16 @@ export default function LoginForm() {
   };
 
   const handleSubmit = (values, { resetForm }) => {
-    login({ username: values.username, password: values.password });
-    resetForm();
-    navigate("/events");
+    const success = login({
+      username: values.username,
+      password: values.password,
+    });
+    if (success) {
+      resetForm();
+      navigate("/events");
+    }
   };
+
   return (
     <div className="d-flex justify-content-center align-items-center mt-5">
       <Formik

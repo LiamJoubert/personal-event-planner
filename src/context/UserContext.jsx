@@ -46,8 +46,10 @@ export function UserProvider({ children }) {
     if (foundUser) {
       setUser(foundUser);
       localStorage.setItem("currentUser", JSON.stringify(foundUser));
+      return true;
     } else {
       alert("Invalid username or password");
+      return false;
     }
   };
 
