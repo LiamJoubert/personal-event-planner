@@ -4,6 +4,14 @@ import { UserContext } from "../context/UserContext";
 import { useContext } from "react";
 import LogoutButton from "../components/logoutButton/LogoutButton";
 
+/**
+ * NavBar Component
+ * Navigation bar that displays dashboard, events and help and navigates
+ * to the links
+ * Only displays events if user is logged in.
+ * Includes our login button for ease of access.
+ */
+
 export default function NavBar() {
   const { user } = useContext(UserContext);
   return (

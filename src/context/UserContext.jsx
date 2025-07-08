@@ -1,5 +1,16 @@
 import { createContext, useState, useEffect } from "react";
 
+/**
+ * UserContext
+ *
+ * Stores and provides global states and functions for user Authentication
+ * and event management.
+ * Stores the data in local storage
+ * Contains login, logout and register functions to be called by other components
+ * Manages event creation, editing and deleting.
+ * Loads the current user data on start.
+ */
+
 export const UserContext = createContext();
 
 export function UserProvider({ children }) {

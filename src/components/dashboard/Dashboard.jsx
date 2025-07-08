@@ -4,6 +4,10 @@ import LoginForm from "../loginForm/LoginForm";
 import { UserContext } from "../../context/UserContext";
 import RegisterForm from "../registerForm/RegisterForm";
 
+/**Dashboard Component
+ * Main Landing Page for users. New and already registered.
+ * If a user is logged in, displays a short welcome message.
+ */
 export default function Dashboard() {
   const { user } = useContext(UserContext);
   const [showRegister, setShowRegister] = useState(false);

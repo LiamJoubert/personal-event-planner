@@ -1,6 +1,15 @@
 import NavBar from "../../routes/NavBar";
 import { Card } from "react-bootstrap";
 
+/**
+ * Help Component
+ *
+ * Provides assistance to the user for using the event planner
+ * Explains how to register, log in, and navigate the site
+ * as well as how to add, edit and delete events.
+ * Also includes tips for organizing events effectively.
+ */
+
 export default function Help() {
   return (
     <>
