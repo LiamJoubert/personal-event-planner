@@ -8,10 +8,22 @@ import { UserContext } from "../../context/UserContext";
 export default function Events() {
   const [events, setEvents] = useState([]);
   const { user, deleteEvent } = useContext(UserContext);
+  const [editingEvent, setEditingEvent] = useState(null);
 
   const handleDelete = (eventId) => {
     deleteEvent(eventId);
     setEvents(events.filter((e) => e.id !== eventId));
+  };
+
+  const handleFinishEdit = () => {
+    setEditingEvent(null);
+    const updatedUser = JSON.parse(localStorage.getItem("currentUser"));
+    if (updatedUser?.events) {
+      const sorted = [...updatedUser.events].sort(
+        (a, b) => new Date(a.date) - new Date(b.date)
+      );
+      setEvents(sorted);
+    }
   };
 
   // Load events from localStorage on mount
@@ -38,7 +50,11 @@ export default function Events() {
       <div className="container mt-4">
         <h2 className="mb-4">Your Events</h2>
 
-        <EventForm onAddEvent={handleAddEvent} />
+        <EventForm
+          onAddEvent={handleAddEvent}
+          editingEvent={editingEvent}
+          onFinishEdit={handleFinishEdit}
+        />
 
         {events.length === 0 ? (
           <p className="text-muted">No events yet. Add one above!</p>
@@ -60,7 +76,11 @@ export default function Events() {
                 )}
 
                 <div className="d-flex justify-content-end gap-2">
-                  <Button variant="outline-secondary" size="sm" disabled>
+                  <Button
+                    variant="outline-secondary"
+                    size="sm"
+                    onClick={() => setEditingEvent(event)}
+                  >
                     Edit
                   </Button>
                   <Button

@@ -3,16 +3,18 @@ import { useContext } from "react";
 import { Button } from "react-bootstrap";
 import { UserContext } from "../../context/UserContext";
 
-export default function EventForm({ onAddEvent }) {
-  const { addEvent } = useContext(UserContext);
-
-  const initialValues = {
-    name: "",
-    date: "",
-    time: "",
-    location: "",
-    description: "",
-  };
+export default function EventForm({ onAddEvent, editingEvent, onFinishEdit }) {
+  const isEditing = Boolean(editingEvent);
+  const { addEvent, updateEvent } = useContext(UserContext);
+  const initialValues = isEditing
+    ? editingEvent
+    : {
+        name: "",
+        date: "",
+        time: "",
+        location: "",
+        description: "",
+      };
 
   const validate = (values) => {
     const errors = {};
@@ -22,25 +24,30 @@ export default function EventForm({ onAddEvent }) {
   };
 
   const handleSubmit = (values, { resetForm }) => {
-    const newEvent = {
-      ...values,
-      id: Date.now().toString(),
-    };
-
-    addEvent(newEvent); // Save to user context
-    if (onAddEvent) onAddEvent(newEvent); // Notify parent
+    console.log("Submitting values:", values);
+    if (isEditing) {
+      updateEvent(values);
+      onFinishEdit();
+    } else {
+      const newEvent = { ...values, id: Date.now().toString() };
+      addEvent(newEvent);
+      if (onAddEvent) onAddEvent(newEvent);
+    }
     resetForm();
   };
 
   return (
     <div className="mb-4">
-      <h4 className="mb-3">Add New Event</h4>
+      <h4 className="mb-3">{isEditing ? "Edit Event" : "Add New Event"}</h4>
       <Formik
         initialValues={initialValues}
         validate={validate}
         onSubmit={handleSubmit}
+        enableReinitialize={true}
       >
         <Form>
+          <Field type="hidden" name="id" />
+
           <div className="mb-3">
             <label htmlFor="name">Event Name</label>
             <Field id="name" name="name" className="form-control" />
@@ -75,7 +82,7 @@ export default function EventForm({ onAddEvent }) {
           </div>
 
           <Button type="submit" variant="primary">
-            Add Event
+            {isEditing ? "Update Event" : "Add Event"}
           </Button>
         </Form>
       </Formik>
