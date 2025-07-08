@@ -9,6 +9,7 @@ export default function Events() {
   const [events, setEvents] = useState([]);
   const { user, deleteEvent } = useContext(UserContext);
   const [editingEvent, setEditingEvent] = useState(null);
+  const [showForm, setShowForm] = useState(false);
 
   const handleDelete = (eventId) => {
     deleteEvent(eventId);
@@ -17,6 +18,7 @@ export default function Events() {
 
   const handleFinishEdit = () => {
     setEditingEvent(null);
+    setShowForm(false); // hide form after editing
     const updatedUser = JSON.parse(localStorage.getItem("currentUser"));
     if (updatedUser?.events) {
       const sorted = [...updatedUser.events].sort(
@@ -50,11 +52,27 @@ export default function Events() {
       <div className="container mt-4">
         <h2 className="mb-4">Your Events</h2>
 
-        <EventForm
-          onAddEvent={handleAddEvent}
-          editingEvent={editingEvent}
-          onFinishEdit={handleFinishEdit}
-        />
+        <div className="mb-4">
+          <Button
+            variant={showForm ? "outline-secondary" : "primary"}
+            onClick={() => setShowForm(!showForm)}
+            className="mb-3"
+          >
+            {showForm
+              ? "Hide Form"
+              : editingEvent
+              ? "Edit Event"
+              : "Add New Event"}
+          </Button>
+
+          {showForm && (
+            <EventForm
+              onAddEvent={handleAddEvent}
+              editingEvent={editingEvent}
+              onFinishEdit={handleFinishEdit}
+            />
+          )}
+        </div>
 
         {events.length === 0 ? (
           <p className="text-muted">No events yet. Add one above!</p>
@@ -79,7 +97,10 @@ export default function Events() {
                   <Button
                     variant="outline-secondary"
                     size="sm"
-                    onClick={() => setEditingEvent(event)}
+                    onClick={() => {
+                      setEditingEvent(event);
+                      setShowForm(true);
+                    }}
                   >
                     Edit
                   </Button>
