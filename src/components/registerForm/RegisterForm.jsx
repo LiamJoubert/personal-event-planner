@@ -1,8 +1,17 @@
-import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { Button } from "react-bootstrap";
 import { useContext } from "react";
 import { UserContext } from "../../context/UserContext";
+
+/**
+ * Register Form Component
+ *
+ * User registration form.
+ * Uses Formik for validation
+ * Checks for valid email format
+ * On submit, calls the register function from UserContext
+ * Resets after successful registration.
+ */
 
 export default function RegisterForm() {
   const { register } = useContext(UserContext);

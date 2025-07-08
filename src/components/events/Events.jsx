@@ -4,7 +4,15 @@ import EventForm from "./EventForm";
 import { Card, Button } from "react-bootstrap";
 import { useContext } from "react";
 import { UserContext } from "../../context/UserContext";
-import { Navigate } from "react-router-dom";
+
+/**
+ * Events Component
+ *
+ * Events displays a list of events sorted by date.
+ * Allows the user to edit or delete events using the eventForm.
+ * Contains the navbar and welcomes the user.
+ * This component cannot be accessed by the user until they are logged in.
+ */
 
 export default function Events() {
   const [events, setEvents] = useState([]);
@@ -12,14 +20,17 @@ export default function Events() {
   const [editingEvent, setEditingEvent] = useState(null);
   const [showForm, setShowForm] = useState(false);
 
+  //sorts events by date
   const sortByDate = (eventsArray) =>
     [...eventsArray].sort((a, b) => new Date(a.date) - new Date(b.date));
 
+  //deletes an event and updates local state
   const handleDelete = (eventId) => {
     deleteEvent(eventId);
     setEvents(events.filter((e) => e.id !== eventId));
   };
 
+  //called after editing an event to refresh the list
   const handleFinishEdit = () => {
     setEditingEvent(null);
     setShowForm(false);
@@ -39,6 +50,7 @@ export default function Events() {
     }
   }, []);
 
+  //adds a new event to the list
   const handleAddEvent = (newEvent) => {
     setEvents(sortByDate([...events, newEvent]));
   };
@@ -55,7 +67,7 @@ export default function Events() {
         )}
 
         <h2 className="mb-4">Your Events</h2>
-
+        {/* Toggle form visibility */}
         <div className="mb-4">
           <Button
             variant={showForm ? "outline-secondary" : "primary"}
@@ -78,6 +90,7 @@ export default function Events() {
           )}
         </div>
 
+        {/* Render event list or "No events yet" if events list is empty*/}
         {events.length === 0 ? (
           <p className="text-muted">No events yet. Add one above!</p>
         ) : (
@@ -104,10 +117,12 @@ export default function Events() {
 
                   {isPastEvent && (
                     <Card.Text className="text-danger">
-                      ⚠️ This event is in the past. You can edit or delete it.
+                      ⚠️ This event has already happened. You can edit or delete
+                      it.
                     </Card.Text>
                   )}
 
+                  {/*Edit Button */}
                   <div className="d-flex justify-content-end gap-2">
                     <Button
                       variant="outline-secondary"
@@ -119,6 +134,7 @@ export default function Events() {
                     >
                       Edit
                     </Button>
+                    {/*Delete Button */}
                     <Button
                       variant="outline-danger"
                       size="sm"

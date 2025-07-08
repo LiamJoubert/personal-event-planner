@@ -3,9 +3,20 @@ import { useContext } from "react";
 import { Button } from "react-bootstrap";
 import { UserContext } from "../../context/UserContext";
 
+/**
+ * EventForm Component
+ * Form for adding or editing events.
+ * Uses formik for validation.
+ * Used for adding new events as well as editing already created events.
+ * Validates required fields (name and date)
+ * Saves and updates data in userContext.
+ */
+
 export default function EventForm({ onAddEvent, editingEvent, onFinishEdit }) {
   const isEditing = Boolean(editingEvent);
   const { addEvent, updateEvent } = useContext(UserContext);
+
+  //set initial form values
   const initialValues = isEditing
     ? editingEvent
     : {
@@ -16,6 +27,7 @@ export default function EventForm({ onAddEvent, editingEvent, onFinishEdit }) {
         description: "",
       };
 
+  //Basic validation for required fields
   const validate = (values) => {
     const errors = {};
     if (!values.name) errors.name = "Event name is required";

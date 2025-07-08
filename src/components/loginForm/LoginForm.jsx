@@ -4,6 +4,14 @@ import { useContext } from "react";
 import { UserContext } from "../../context/UserContext";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * Login Form Component
+ * User Login form. Includes formik for validation
+ * Validates required fields (username and password)
+ * On submit, calls the login function from userContext.
+ * Redirects the user to Events once logged in.
+ */
+
 export default function LoginForm() {
   const { login } = useContext(UserContext);
   const initialValues = {
