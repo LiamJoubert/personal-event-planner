@@ -37,8 +37,11 @@ export default function RegisterForm() {
   };
 
   const handleSubmit = (values, { resetForm }) => {
-    register(values);
-    resetForm();
+    const success = register(values);
+    if (success) {
+      alert("Account created successfully! Please log in.");
+      resetForm();
+    }
   };
 
   return (
