@@ -113,8 +113,7 @@ export function UserProvider({ children }) {
     const updatedUsers = [...users, userToSave];
 
     localStorage.setItem("users", JSON.stringify(updatedUsers));
-    setUser(userToSave);
-    localStorage.setItem("currentUser", JSON.stringify(userToSave));
+    return true;
   };
 
   return (
